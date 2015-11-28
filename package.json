@@ -8,5 +8,13 @@
   "bugs": {
     "url": "https://github.com/haskellbr/haddock-improvements/issues"
   },
-  "homepage": "https://github.com/haskellbr/haddock-improvements#readme"
+  "homepage": "https://github.com/haskellbr/haddock-improvements#readme",
+  "devDependencies": {
+    "browser-sync": "^2.10.0",
+    "webpack": "^1.12.9"
+  },
+  "dependencies": {
+    "jquery": "^2.1.4",
+    "scrolltofixed": "^1.0.6"
+  }
 }

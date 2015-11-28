@@ -54,9 +54,9 @@ a[href]:hover { text-decoration:underline; }
  */
 
 body {
-	font:13px/1.4 sans-serif;
-	*font-size:small; /* for IE */
-	*font:x-small; /* for IE in quirks mode */
+  font:13px/1.4 sans-serif;
+  *font-size:small; /* for IE */
+  *font:x-small; /* for IE in quirks mode */
 }
 
 h1 { font-size: 146.5%; /* 19pt */ }
@@ -66,18 +66,18 @@ h4 { font-size: 100%;   /* 13pt */ }
 h5 { font-size: 100%;   /* 13pt */ }
 
 select, input, button, textarea {
-	font:99% sans-serif;
+  font:99% sans-serif;
 }
 
 table {
-	font-size:inherit;
-	font:100%;
+  font-size:inherit;
+  font:100%;
 }
 
 pre, code, kbd, samp, tt, .src {
-	font-family:monospace;
-	*font-size:108%;
-	line-height: 124%;
+  font-family:monospace;
+  *font-size:108%;
+  line-height: 124%;
 }
 
 .links, .link {
@@ -225,7 +225,7 @@ table.info {
 }
 
 .info th {
-	padding: 0 1em 0 0;
+  padding: 0 1em 0 0;
 }
 
 div#style-menu-holder {
@@ -247,16 +247,16 @@ div#style-menu-holder {
 }
 
 #style-menu li {
-	display: list-item;
-	border-style: none;
-	margin: 0;
-	padding: 0;
-	color: #000;
-	list-style-type: none;
+  display: list-item;
+  border-style: none;
+  margin: 0;
+  padding: 0;
+  color: #000;
+  list-style-type: none;
 }
 
 #style-menu li + li {
-	border-top: 1px solid #919191;
+  border-top: 1px solid #919191;
 }
 
 #style-menu a {
@@ -378,7 +378,7 @@ div#style-menu-holder {
 #interface h3 + div.top,
 #interface h4 + div.top,
 #interface h5 + div.top {
- 	margin-top: 1em;
+  margin-top: 1em;
 }
 #interface p.src .link {
   float: right;
@@ -554,19 +554,19 @@ div#style-menu-holder {
 }
 
 #alphabet ul {
-	list-style: none;
-	padding: 0;
-	margin: 0.5em 0 0;
-	text-align: center;
+  list-style: none;
+  padding: 0;
+  margin: 0.5em 0 0;
+  text-align: center;
 }
 
 #alphabet li {
-	display: inline;
-	margin: 0 0.25em;
+  display: inline;
+  margin: 0 0.25em;
 }
 
 #alphabet a {
-	font-weight: bold;
+  font-weight: bold;
 }
 
 #index .caption,

@@ -1,343 +1,959 @@
-// Haddock JavaScript utilities
-var rspace = /\s\s+/g,
-    rtrim = /^\s+|\s+$/g;
+/******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
 
-function spaced(s) { return (" " + s + " ").replace(rspace, " "); }
-function trim(s)   { return s.replace(rtrim, ""); }
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
 
-function hasClass(elem, value) {
-  var className = spaced(elem.className || "");
-  return className.indexOf( " " + value + " " ) >= 0;
-}
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId])
+/******/ 			return installedModules[moduleId].exports;
 
-function addClass(elem, value) {
-  var className = spaced(elem.className || "");
-  if ( className.indexOf( " " + value + " " ) < 0 ) {
-    elem.className = trim(className + " " + value);
-  }
-}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			exports: {},
+/******/ 			id: moduleId,
+/******/ 			loaded: false
+/******/ 		};
 
-function removeClass(elem, value) {
-  var className = spaced(elem.className || "");
-  className = className.replace(" " + value + " ", " ");
-  elem.className = trim(className);
-}
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
 
-function toggleClass(elem, valueOn, valueOff, bool) {
-  if (bool == null) { bool = ! hasClass(elem, valueOn); }
-  if (bool) {
-    removeClass(elem, valueOff);
-    addClass(elem, valueOn);
-  }
-  else {
-    removeClass(elem, valueOn);
-    addClass(elem, valueOff);
-  }
-  return bool;
-}
+/******/ 		// Flag the module as loaded
+/******/ 		module.loaded = true;
+
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
 
 
-function makeClassToggle(valueOn, valueOff)
-{
-  return function(elem, bool) {
-    return toggleClass(elem, valueOn, valueOff, bool);
-  }
-}
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
 
-toggleShow = makeClassToggle("show", "hide");
-toggleCollapser = makeClassToggle("collapser", "expander");
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
 
-function toggleSection(id)
-{
-  var b = toggleShow(document.getElementById("section." + id));
-  toggleCollapser(document.getElementById("control." + id), b);
-  rememberCollapsed(id, b);
-  return b;
-}
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "";
 
-var collapsed = {};
-function rememberCollapsed(id, b)
-{
-  if(b)
-    delete collapsed[id]
-  else
-    collapsed[id] = null;
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(0);
+/******/ })
+/************************************************************************/
+/******/ ([
+/* 0 */
+/***/ function(module, exports, __webpack_require__) {
 
-  var sections = [];
-  for(var i in collapsed)
-  {
-    if(collapsed.hasOwnProperty(i))
-      sections.push(i);
-  }
-  // cookie specific to this page; don't use setCookie which sets path=/
-  document.cookie = "collapsed=" + escape(sections.join('+'));
-}
+	// Haddock JavaScript utilities
+	var $ = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"jquery\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+	var scrollToFixed = __webpack_require__(1);
+	var rspace = /\s\s+/g;
+	var rtrim = /^\s+|\s+$/g;
 
-function restoreCollapsed()
-{
-  var cookie = getCookie("collapsed");
-  if(!cookie)
-    return;
+	function spaced(s) { return (" " + s + " ").replace(rspace, " "); }
+	function trim(s)   { return s.replace(rtrim, ""); }
 
-  var ids = cookie.split('+');
-  for(var i in ids)
-  {
-    if(document.getElementById("section." + ids[i]))
-      toggleSection(ids[i]);
-  }
-}
+	function hasClass(elem, value) {
+	  var className = spaced(elem.className || "");
+	  return className.indexOf( " " + value + " " ) >= 0;
+	}
 
-function setCookie(name, value) {
-  document.cookie = name + "=" + escape(value) + ";path=/;";
-}
+	function addClass(elem, value) {
+	  var className = spaced(elem.className || "");
+	  if ( className.indexOf( " " + value + " " ) < 0 ) {
+	    elem.className = trim(className + " " + value);
+	  }
+	}
 
-function clearCookie(name) {
-  document.cookie = name + "=;path=/;expires=Thu, 01-Jan-1970 00:00:01 GMT;";
-}
+	function removeClass(elem, value) {
+	  var className = spaced(elem.className || "");
+	  className = className.replace(" " + value + " ", " ");
+	  elem.className = trim(className);
+	}
 
-function getCookie(name) {
-  var nameEQ = name + "=";
-  var ca = document.cookie.split(';');
-  for(var i=0;i < ca.length;i++) {
-    var c = ca[i];
-    while (c.charAt(0)==' ') c = c.substring(1,c.length);
-    if (c.indexOf(nameEQ) == 0) {
-      return unescape(c.substring(nameEQ.length,c.length));
-    }
-  }
-  return null;
-}
+	function toggleClass(elem, valueOn, valueOff, bool) {
+	  if (bool == null) { bool = ! hasClass(elem, valueOn); }
+	  if (bool) {
+	    removeClass(elem, valueOff);
+	    addClass(elem, valueOn);
+	  }
+	  else {
+	    removeClass(elem, valueOn);
+	    addClass(elem, valueOff);
+	  }
+	  return bool;
+	}
 
 
+	function makeClassToggle(valueOn, valueOff)
+	{
+	  return function(elem, bool) {
+	    return toggleClass(elem, valueOn, valueOff, bool);
+	  }
+	}
 
-var max_results = 75; // 50 is not enough to search for map in the base libraries
-var shown_range = null;
-var last_search = null;
+	toggleShow = makeClassToggle("show", "hide");
+	toggleCollapser = makeClassToggle("collapser", "expander");
 
-function quick_search()
-{
-    perform_search(false);
-}
+	function toggleSection(id)
+	{
+	  var b = toggleShow(document.getElementById("section." + id));
+	  toggleCollapser(document.getElementById("control." + id), b);
+	  rememberCollapsed(id, b);
+	  return b;
+	}
 
-function full_search()
-{
-    perform_search(true);
-}
+	var collapsed = {};
+	function rememberCollapsed(id, b)
+	{
+	  if(b)
+	    delete collapsed[id]
+	  else
+	    collapsed[id] = null;
 
+	  var sections = [];
+	  for(var i in collapsed)
+	  {
+	    if(collapsed.hasOwnProperty(i))
+	      sections.push(i);
+	  }
+	  // cookie specific to this page; don't use setCookie which sets path=/
+	  document.cookie = "collapsed=" + escape(sections.join('+'));
+	}
 
-function perform_search(full)
-{
-    var text = document.getElementById("searchbox").value.toLowerCase();
-    if (text == last_search && !full) return;
-    last_search = text;
-    
-    var table = document.getElementById("indexlist");
-    var status = document.getElementById("searchmsg");
-    var children = table.firstChild.childNodes;
-    
-    // first figure out the first node with the prefix
-    var first = bisect(-1);
-    var last = (first == -1 ? -1 : bisect(1));
+	function restoreCollapsed()
+	{
+	  var cookie = getCookie("collapsed");
+	  if(!cookie)
+	    return;
 
-    if (first == -1)
-    {
-        table.className = "";
-        status.innerHTML = "No results found, displaying all";
-    }
-    else if (first == 0 && last == children.length - 1)
-    {
-        table.className = "";
-        status.innerHTML = "";
-    }
-    else if (last - first >= max_results && !full)
-    {
-        table.className = "";
-        status.innerHTML = "More than " + max_results + ", press Search to display";
-    }
-    else
-    {
-        // decide what you need to clear/show
-        if (shown_range)
-            setclass(shown_range[0], shown_range[1], "indexrow");
-        setclass(first, last, "indexshow");
-        shown_range = [first, last];
-        table.className = "indexsearch";
-        status.innerHTML = "";
-    }
+	  var ids = cookie.split('+');
+	  for(var i in ids)
+	  {
+	    if(document.getElementById("section." + ids[i]))
+	      toggleSection(ids[i]);
+	  }
+	}
 
-    
-    function setclass(first, last, status)
-    {
-        for (var i = first; i <= last; i++)
-        {
-            children[i].className = status;
-        }
-    }
-    
-    
-    // do a binary search, treating 0 as ...
-    // return either -1 (no 0's found) or location of most far match
-    function bisect(dir)
-    {
-        var first = 0, finish = children.length - 1;
-        var mid, success = false;
+	function setCookie(name, value) {
+	  document.cookie = name + "=" + escape(value) + ";path=/;";
+	}
 
-        while (finish - first > 3)
-        {
-            mid = Math.floor((finish + first) / 2);
+	function clearCookie(name) {
+	  document.cookie = name + "=;path=/;expires=Thu, 01-Jan-1970 00:00:01 GMT;";
+	}
 
-            var i = checkitem(mid);
-            if (i == 0) i = dir;
-            if (i == -1)
-                finish = mid;
-            else
-                first = mid;
-        }
-        var a = (dir == 1 ? first : finish);
-        var b = (dir == 1 ? finish : first);
-        for (var i = b; i != a - dir; i -= dir)
-        {
-            if (checkitem(i) == 0) return i;
-        }
-        return -1;
-    }    
-    
-    
-    // from an index, decide what the result is
-    // 0 = match, -1 is lower, 1 is higher
-    function checkitem(i)
-    {
-        var s = getitem(i).toLowerCase().substr(0, text.length);
-        if (s == text) return 0;
-        else return (s > text ? -1 : 1);
-    }
-    
-    
-    // from an index, get its string
-    // this abstracts over alternates
-    function getitem(i)
-    {
-        for ( ; i >= 0; i--)
-        {
-            var s = children[i].firstChild.firstChild.data;
-            if (s.indexOf(' ') == -1)
-                return s;
-        }
-        return ""; // should never be reached
-    }
-}
-
-function setSynopsis(filename) {
-    if (parent.window.synopsis) {
-        if (parent.window.synopsis.location.replace) {
-            // In Firefox this avoids adding the change to the history.
-            parent.window.synopsis.location.replace(filename);
-        } else {
-            parent.window.synopsis.location = filename;
-        }
-    }
-}
-
-function addMenuItem(html) {
-  var menu = document.getElementById("page-menu");
-  if (menu) {
-    var btn = menu.firstChild.cloneNode(false);
-    btn.innerHTML = html;
-    menu.appendChild(btn);
-  }
-}
-
-function adjustForFrames() {
-  var bodyCls;
-  
-  if (parent.location.href == window.location.href) {
-    // not in frames, so add Frames button
-    addMenuItem("<a href='#' onclick='reframe();return true;'>Frames</a>");
-    bodyCls = "no-frame";
-  }
-  else {
-    bodyCls = "in-frame";
-  }
-  addClass(document.body, bodyCls);
-}
-
-function reframe() {
-  setCookie("haddock-reframe", document.URL);
-  window.location = "frames.html";
-}
-
-function postReframe() {
-  var s = getCookie("haddock-reframe");
-  if (s) {
-    parent.window.main.location = s;
-    clearCookie("haddock-reframe");
-  }
-}
-
-function styles() {
-  var i, a, es = document.getElementsByTagName("link"), rs = [];
-  for (i = 0; a = es[i]; i++) {
-    if(a.rel.indexOf("style") != -1 && a.title) {
-      rs.push(a);
-    }
-  }
-  return rs;
-}
-
-function addStyleMenu() {
-  var as = styles();
-  var i, a, btns = "";
-  for(i=0; a = as[i]; i++) {
-    btns += "<li><a href='#' onclick=\"setActiveStyleSheet('"
-      + a.title + "'); return false;\">"
-      + a.title + "</a></li>"
-  }
-  if (as.length > 1) {
-    var h = "<div id='style-menu-holder'>"
-      + "<a href='#' onclick='styleMenu(); return false;'>Style &#9662;</a>"
-      + "<ul id='style-menu' class='hide'>" + btns + "</ul>"
-      + "</div>";
-    addMenuItem(h);
-  }
-}
-
-function setActiveStyleSheet(title) {
-  var as = styles();
-  var i, a, found;
-  for(i=0; a = as[i]; i++) {
-    a.disabled = true;
-          // need to do this always, some browsers are edge triggered
-    if(a.title == title) {
-      found = a;
-    }
-  }
-  if (found) {
-    found.disabled = false;
-    setCookie("haddock-style", title);
-  }
-  else {
-    as[0].disabled = false;
-    clearCookie("haddock-style");
-  }
-  styleMenu(false);
-}
-
-function resetStyle() {
-  var s = getCookie("haddock-style");
-  if (s) setActiveStyleSheet(s);
-}
+	function getCookie(name) {
+	  var nameEQ = name + "=";
+	  var ca = document.cookie.split(';');
+	  for(var i=0;i < ca.length;i++) {
+	    var c = ca[i];
+	    while (c.charAt(0)==' ') c = c.substring(1,c.length);
+	    if (c.indexOf(nameEQ) == 0) {
+	      return unescape(c.substring(nameEQ.length,c.length));
+	    }
+	  }
+	  return null;
+	}
 
 
-function styleMenu(show) {
-  var m = document.getElementById('style-menu');
-  if (m) toggleShow(m, show);
-}
+
+	var max_results = 75; // 50 is not enough to search for map in the base libraries
+	var shown_range = null;
+	var last_search = null;
+
+	function quick_search()
+	{
+	    perform_search(false);
+	}
+
+	function full_search()
+	{
+	    perform_search(true);
+	}
 
 
-function pageLoad() {
-  addStyleMenu();
-  adjustForFrames();
-  resetStyle();
-  restoreCollapsed();
-}
+	function perform_search(full)
+	{
+	    var text = document.getElementById("searchbox").value.toLowerCase();
+	    if (text == last_search && !full) return;
+	    last_search = text;
+	    
+	    var table = document.getElementById("indexlist");
+	    var status = document.getElementById("searchmsg");
+	    var children = table.firstChild.childNodes;
+	    
+	    // first figure out the first node with the prefix
+	    var first = bisect(-1);
+	    var last = (first == -1 ? -1 : bisect(1));
 
+	    if (first == -1)
+	    {
+	        table.className = "";
+	        status.innerHTML = "No results found, displaying all";
+	    }
+	    else if (first == 0 && last == children.length - 1)
+	    {
+	        table.className = "";
+	        status.innerHTML = "";
+	    }
+	    else if (last - first >= max_results && !full)
+	    {
+	        table.className = "";
+	        status.innerHTML = "More than " + max_results + ", press Search to display";
+	    }
+	    else
+	    {
+	        // decide what you need to clear/show
+	        if (shown_range)
+	            setclass(shown_range[0], shown_range[1], "indexrow");
+	        setclass(first, last, "indexshow");
+	        shown_range = [first, last];
+	        table.className = "indexsearch";
+	        status.innerHTML = "";
+	    }
+
+	    
+	    function setclass(first, last, status)
+	    {
+	        for (var i = first; i <= last; i++)
+	        {
+	            children[i].className = status;
+	        }
+	    }
+	    
+	    
+	    // do a binary search, treating 0 as ...
+	    // return either -1 (no 0's found) or location of most far match
+	    function bisect(dir)
+	    {
+	        var first = 0, finish = children.length - 1;
+	        var mid, success = false;
+
+	        while (finish - first > 3)
+	        {
+	            mid = Math.floor((finish + first) / 2);
+
+	            var i = checkitem(mid);
+	            if (i == 0) i = dir;
+	            if (i == -1)
+	                finish = mid;
+	            else
+	                first = mid;
+	        }
+	        var a = (dir == 1 ? first : finish);
+	        var b = (dir == 1 ? finish : first);
+	        for (var i = b; i != a - dir; i -= dir)
+	        {
+	            if (checkitem(i) == 0) return i;
+	        }
+	        return -1;
+	    }    
+	    
+	    
+	    // from an index, decide what the result is
+	    // 0 = match, -1 is lower, 1 is higher
+	    function checkitem(i)
+	    {
+	        var s = getitem(i).toLowerCase().substr(0, text.length);
+	        if (s == text) return 0;
+	        else return (s > text ? -1 : 1);
+	    }
+	    
+	    
+	    // from an index, get its string
+	    // this abstracts over alternates
+	    function getitem(i)
+	    {
+	        for ( ; i >= 0; i--)
+	        {
+	            var s = children[i].firstChild.firstChild.data;
+	            if (s.indexOf(' ') == -1)
+	                return s;
+	        }
+	        return ""; // should never be reached
+	    }
+	}
+
+	function setSynopsis(filename) {
+	    if (parent.window.synopsis) {
+	        if (parent.window.synopsis.location.replace) {
+	            // In Firefox this avoids adding the change to the history.
+	            parent.window.synopsis.location.replace(filename);
+	        } else {
+	            parent.window.synopsis.location = filename;
+	        }
+	    }
+	}
+
+	function addMenuItem(html) {
+	  var menu = document.getElementById("page-menu");
+	  if (menu) {
+	    var btn = menu.firstChild.cloneNode(false);
+	    btn.innerHTML = html;
+	    menu.appendChild(btn);
+	  }
+	}
+
+	function adjustForFrames() {
+	  var bodyCls;
+	  
+	  if (parent.location.href == window.location.href) {
+	    // not in frames, so add Frames button
+	    addMenuItem("<a href='#' onclick='reframe();return true;'>Frames</a>");
+	    bodyCls = "no-frame";
+	  }
+	  else {
+	    bodyCls = "in-frame";
+	  }
+	  addClass(document.body, bodyCls);
+	}
+
+	function reframe() {
+	  setCookie("haddock-reframe", document.URL);
+	  window.location = "frames.html";
+	}
+
+	function postReframe() {
+	  var s = getCookie("haddock-reframe");
+	  if (s) {
+	    parent.window.main.location = s;
+	    clearCookie("haddock-reframe");
+	  }
+	}
+
+	function styles() {
+	  var i, a, es = document.getElementsByTagName("link"), rs = [];
+	  for (i = 0; a = es[i]; i++) {
+	    if(a.rel.indexOf("style") != -1 && a.title) {
+	      rs.push(a);
+	    }
+	  }
+	  return rs;
+	}
+
+	function addStyleMenu() {
+	  var as = styles();
+	  var i, a, btns = "";
+	  for(i=0; a = as[i]; i++) {
+	    btns += "<li><a href='#' onclick=\"setActiveStyleSheet('"
+	      + a.title + "'); return false;\">"
+	      + a.title + "</a></li>"
+	  }
+	  if (as.length > 1) {
+	    var h = "<div id='style-menu-holder'>"
+	      + "<a href='#' onclick='styleMenu(); return false;'>Style &#9662;</a>"
+	      + "<ul id='style-menu' class='hide'>" + btns + "</ul>"
+	      + "</div>";
+	    addMenuItem(h);
+	  }
+	}
+
+	function setActiveStyleSheet(title) {
+	  var as = styles();
+	  var i, a, found;
+	  for(i=0; a = as[i]; i++) {
+	    a.disabled = true;
+	          // need to do this always, some browsers are edge triggered
+	    if(a.title == title) {
+	      found = a;
+	    }
+	  }
+	  if (found) {
+	    found.disabled = false;
+	    setCookie("haddock-style", title);
+	  }
+	  else {
+	    as[0].disabled = false;
+	    clearCookie("haddock-style");
+	  }
+	  styleMenu(false);
+	}
+
+	function resetStyle() {
+	  var s = getCookie("haddock-style");
+	  if (s) setActiveStyleSheet(s);
+	}
+
+
+	function styleMenu(show) {
+	  var m = document.getElementById('style-menu');
+	  if (m) toggleShow(m, show);
+	}
+
+
+	function pageLoad() {
+	  addStyleMenu();
+	  adjustForFrames();
+	  resetStyle();
+	  restoreCollapsed();
+	}
+
+
+
+/***/ },
+/* 1 */
+/***/ function(module, exports) {
+
+	/*
+	 * ScrollToFixed
+	 * https://github.com/bigspotteddog/ScrollToFixed
+	 * 
+	 * Copyright (c) 2011 Joseph Cava-Lynch
+	 * MIT license
+	 */
+	(function($) {
+	    $.isScrollToFixed = function(el) {
+	        return !!$(el).data('ScrollToFixed');
+	    };
+
+	    $.ScrollToFixed = function(el, options) {
+	        // To avoid scope issues, use 'base' instead of 'this' to reference this
+	        // class from internal events and functions.
+	        var base = this;
+
+	        // Access to jQuery and DOM versions of element.
+	        base.$el = $(el);
+	        base.el = el;
+
+	        // Add a reverse reference to the DOM object.
+	        base.$el.data('ScrollToFixed', base);
+
+	        // A flag so we know if the scroll has been reset.
+	        var isReset = false;
+
+	        // The element that was given to us to fix if scrolled above the top of
+	        // the page.
+	        var target = base.$el;
+
+	        var position;
+	        var originalPosition;
+	        var originalOffsetTop;
+	        var originalZIndex;
+
+	        // The offset top of the element when resetScroll was called. This is
+	        // used to determine if we have scrolled past the top of the element.
+	        var offsetTop = 0;
+
+	        // The offset left of the element when resetScroll was called. This is
+	        // used to move the element left or right relative to the horizontal
+	        // scroll.
+	        var offsetLeft = 0;
+	        var originalOffsetLeft = -1;
+
+	        // This last offset used to move the element horizontally. This is used
+	        // to determine if we need to move the element because we would not want
+	        // to do that for no reason.
+	        var lastOffsetLeft = -1;
+
+	        // This is the element used to fill the void left by the target element
+	        // when it goes fixed; otherwise, everything below it moves up the page.
+	        var spacer = null;
+
+	        var spacerClass;
+
+	        var className;
+
+	        // Capture the original offsets for the target element. This needs to be
+	        // called whenever the page size changes or when the page is first
+	        // scrolled. For some reason, calling this before the page is first
+	        // scrolled causes the element to become fixed too late.
+	        function resetScroll() {
+	            // Set the element to it original positioning.
+	            target.trigger('preUnfixed.ScrollToFixed');
+	            setUnfixed();
+	            target.trigger('unfixed.ScrollToFixed');
+
+	            // Reset the last offset used to determine if the page has moved
+	            // horizontally.
+	            lastOffsetLeft = -1;
+
+	            // Capture the offset top of the target element.
+	            offsetTop = target.offset().top;
+
+	            // Capture the offset left of the target element.
+	            offsetLeft = target.offset().left;
+
+	            // If the offsets option is on, alter the left offset.
+	            if (base.options.offsets) {
+	                offsetLeft += (target.offset().left - target.position().left);
+	            }
+
+	            if (originalOffsetLeft == -1) {
+	                originalOffsetLeft = offsetLeft;
+	            }
+
+	            position = target.css('position');
+
+	            // Set that this has been called at least once.
+	            isReset = true;
+
+	            if (base.options.bottom != -1) {
+	                target.trigger('preFixed.ScrollToFixed');
+	                setFixed();
+	                target.trigger('fixed.ScrollToFixed');
+	            }
+	        }
+
+	        function getLimit() {
+	            var limit = base.options.limit;
+	            if (!limit) return 0;
+
+	            if (typeof(limit) === 'function') {
+	                return limit.apply(target);
+	            }
+	            return limit;
+	        }
+
+	        // Returns whether the target element is fixed or not.
+	        function isFixed() {
+	            return position === 'fixed';
+	        }
+
+	        // Returns whether the target element is absolute or not.
+	        function isAbsolute() {
+	            return position === 'absolute';
+	        }
+
+	        function isUnfixed() {
+	            return !(isFixed() || isAbsolute());
+	        }
+
+	        // Sets the target element to fixed. Also, sets the spacer to fill the
+	        // void left by the target element.
+	        function setFixed() {
+	            // Only fix the target element and the spacer if we need to.
+	            if (!isFixed()) {
+	                // Set the spacer to fill the height and width of the target
+	                // element, then display it.
+	                spacer.css({
+	                    'display' : target.css('display'),
+	                    'width' : target.outerWidth(true),
+	                    'height' : target.outerHeight(true),
+	                    'float' : target.css('float')
+	                });
+
+	                // Set the target element to fixed and set its width so it does
+	                // not fill the rest of the page horizontally. Also, set its top
+	                // to the margin top specified in the options.
+
+	                cssOptions={
+	                    'z-index' : base.options.zIndex,
+	                    'position' : 'fixed',
+	                    'top' : base.options.bottom == -1?getMarginTop():'',
+	                    'bottom' : base.options.bottom == -1?'':base.options.bottom,
+	                    'margin-left' : '0px'
+	                }
+	                if (!base.options.dontSetWidth){ cssOptions['width']=target.css('width'); };
+
+	                target.css(cssOptions);
+	                
+	                target.addClass(base.options.baseClassName);
+	                
+	                if (base.options.className) {
+	                    target.addClass(base.options.className);
+	                }
+
+	                position = 'fixed';
+	            }
+	        }
+
+	        function setAbsolute() {
+
+	            var top = getLimit();
+	            var left = offsetLeft;
+
+	            if (base.options.removeOffsets) {
+	                left = '';
+	                top = top - offsetTop;
+	            }
+
+	            cssOptions={
+	              'position' : 'absolute',
+	              'top' : top,
+	              'left' : left,
+	              'margin-left' : '0px',
+	              'bottom' : ''
+	            }
+	            if (!base.options.dontSetWidth){ cssOptions['width']=target.css('width'); };
+
+	            target.css(cssOptions);
+
+	            position = 'absolute';
+	        }
+
+	        // Sets the target element back to unfixed. Also, hides the spacer.
+	        function setUnfixed() {
+	            // Only unfix the target element and the spacer if we need to.
+	            if (!isUnfixed()) {
+	                lastOffsetLeft = -1;
+
+	                // Hide the spacer now that the target element will fill the
+	                // space.
+	                spacer.css('display', 'none');
+
+	                // Remove the style attributes that were added to the target.
+	                // This will reverse the target back to the its original style.
+	                target.css({
+	                    'z-index' : originalZIndex,
+	                    'width' : '',
+	                    'position' : originalPosition,
+	                    'left' : '',
+	                    'top' : originalOffsetTop,
+	                    'margin-left' : ''
+	                });
+
+	                target.removeClass('scroll-to-fixed-fixed');
+
+	                if (base.options.className) {
+	                    target.removeClass(base.options.className);
+	                }
+
+	                position = null;
+	            }
+	        }
+
+	        // Moves the target element left or right relative to the horizontal
+	        // scroll position.
+	        function setLeft(x) {
+	            // Only if the scroll is not what it was last time we did this.
+	            if (x != lastOffsetLeft) {
+	                // Move the target element horizontally relative to its original
+	                // horizontal position.
+	                target.css('left', offsetLeft - x);
+
+	                // Hold the last horizontal position set.
+	                lastOffsetLeft = x;
+	            }
+	        }
+
+	        function getMarginTop() {
+	            var marginTop = base.options.marginTop;
+	            if (!marginTop) return 0;
+
+	            if (typeof(marginTop) === 'function') {
+	                return marginTop.apply(target);
+	            }
+	            return marginTop;
+	        }
+
+	        // Checks to see if we need to do something based on new scroll position
+	        // of the page.
+	        function checkScroll() {
+	            if (!$.isScrollToFixed(target)) return;
+	            var wasReset = isReset;
+
+	            // If resetScroll has not yet been called, call it. This only
+	            // happens once.
+	            if (!isReset) {
+	                resetScroll();
+	            } else if (isUnfixed()) {
+	                // if the offset has changed since the last scroll,
+	                // we need to get it again.
+
+	                // Capture the offset top of the target element.
+	                offsetTop = target.offset().top;
+
+	                // Capture the offset left of the target element.
+	                offsetLeft = target.offset().left;
+	            }
+
+	            // Grab the current horizontal scroll position.
+	            var x = $(window).scrollLeft();
+
+	            // Grab the current vertical scroll position.
+	            var y = $(window).scrollTop();
+
+	            // Get the limit, if there is one.
+	            var limit = getLimit();
+
+	            // If the vertical scroll position, plus the optional margin, would
+	            // put the target element at the specified limit, set the target
+	            // element to absolute.
+	            if (base.options.minWidth && $(window).width() < base.options.minWidth) {
+	                if (!isUnfixed() || !wasReset) {
+	                    postPosition();
+	                    target.trigger('preUnfixed.ScrollToFixed');
+	                    setUnfixed();
+	                    target.trigger('unfixed.ScrollToFixed');
+	                }
+	            } else if (base.options.maxWidth && $(window).width() > base.options.maxWidth) {
+	                if (!isUnfixed() || !wasReset) {
+	                    postPosition();
+	                    target.trigger('preUnfixed.ScrollToFixed');
+	                    setUnfixed();
+	                    target.trigger('unfixed.ScrollToFixed');
+	                }
+	            } else if (base.options.bottom == -1) {
+	                // If the vertical scroll position, plus the optional margin, would
+	                // put the target element at the specified limit, set the target
+	                // element to absolute.
+	                if (limit > 0 && y >= limit - getMarginTop()) {
+	                    if (!isAbsolute() || !wasReset) {
+	                        postPosition();
+	                        target.trigger('preAbsolute.ScrollToFixed');
+	                        setAbsolute();
+	                        target.trigger('unfixed.ScrollToFixed');
+	                    }
+	                // If the vertical scroll position, plus the optional margin, would
+	                // put the target element above the top of the page, set the target
+	                // element to fixed.
+	                } else if (y >= offsetTop - getMarginTop()) {
+	                    if (!isFixed() || !wasReset) {
+	                        postPosition();
+	                        target.trigger('preFixed.ScrollToFixed');
+
+	                        // Set the target element to fixed.
+	                        setFixed();
+
+	                        // Reset the last offset left because we just went fixed.
+	                        lastOffsetLeft = -1;
+
+	                        target.trigger('fixed.ScrollToFixed');
+	                    }
+	                    // If the page has been scrolled horizontally as well, move the
+	                    // target element accordingly.
+	                    setLeft(x);
+	                } else {
+	                    // Set the target element to unfixed, placing it where it was
+	                    // before.
+	                    if (!isUnfixed() || !wasReset) {
+	                        postPosition();
+	                        target.trigger('preUnfixed.ScrollToFixed');
+	                        setUnfixed();
+	                        target.trigger('unfixed.ScrollToFixed');
+	                    }
+	                }
+	            } else {
+	                if (limit > 0) {
+	                    if (y + $(window).height() - target.outerHeight(true) >= limit - (getMarginTop() || -getBottom())) {
+	                        if (isFixed()) {
+	                            postPosition();
+	                            target.trigger('preUnfixed.ScrollToFixed');
+
+	                            if (originalPosition === 'absolute') {
+	                                setAbsolute();
+	                            } else {
+	                                setUnfixed();
+	                            }
+
+	                            target.trigger('unfixed.ScrollToFixed');
+	                        }
+	                    } else {
+	                        if (!isFixed()) {
+	                            postPosition();
+	                            target.trigger('preFixed.ScrollToFixed');
+	                            setFixed();
+	                        }
+	                        setLeft(x);
+	                        target.trigger('fixed.ScrollToFixed');
+	                    }
+	                } else {
+	                    setLeft(x);
+	                }
+	            }
+	        }
+
+	        function getBottom() {
+	            if (!base.options.bottom) return 0;
+	            return base.options.bottom;
+	        }
+
+	        function postPosition() {
+	            var position = target.css('position');
+
+	            if (position == 'absolute') {
+	                target.trigger('postAbsolute.ScrollToFixed');
+	            } else if (position == 'fixed') {
+	                target.trigger('postFixed.ScrollToFixed');
+	            } else {
+	                target.trigger('postUnfixed.ScrollToFixed');
+	            }
+	        }
+
+	        var windowResize = function(event) {
+	            // Check if the element is visible before updating it's position, which
+	            // improves behavior with responsive designs where this element is hidden.
+	            if(target.is(':visible')) {
+	                isReset = false;
+	                checkScroll();
+	            }
+	        }
+
+	        var windowScroll = function(event) {
+	            (!!window.requestAnimationFrame) ? requestAnimationFrame(checkScroll) : checkScroll();
+	        }
+
+	        // From: http://kangax.github.com/cft/#IS_POSITION_FIXED_SUPPORTED
+	        var isPositionFixedSupported = function() {
+	            var container = document.body;
+
+	            if (document.createElement && container && container.appendChild && container.removeChild) {
+	                var el = document.createElement('div');
+
+	                if (!el.getBoundingClientRect) return null;
+
+	                el.innerHTML = 'x';
+	                el.style.cssText = 'position:fixed;top:100px;';
+	                container.appendChild(el);
+
+	                var originalHeight = container.style.height,
+	                originalScrollTop = container.scrollTop;
+
+	                container.style.height = '3000px';
+	                container.scrollTop = 500;
+
+	                var elementTop = el.getBoundingClientRect().top;
+	                container.style.height = originalHeight;
+
+	                var isSupported = (elementTop === 100);
+	                container.removeChild(el);
+	                container.scrollTop = originalScrollTop;
+
+	                return isSupported;
+	            }
+
+	            return null;
+	        }
+
+	        var preventDefault = function(e) {
+	            e = e || window.event;
+	            if (e.preventDefault) {
+	                e.preventDefault();
+	            }
+	            e.returnValue = false;
+	        }
+
+	        // Initializes this plugin. Captures the options passed in, turns this
+	        // off for devices that do not support fixed position, adds the spacer,
+	        // and binds to the window scroll and resize events.
+	        base.init = function() {
+	            // Capture the options for this plugin.
+	            base.options = $.extend({}, $.ScrollToFixed.defaultOptions, options);
+
+	            originalZIndex = target.css('z-index')
+
+	            // Turn off this functionality for devices that do not support it.
+	            // if (!(base.options && base.options.dontCheckForPositionFixedSupport)) {
+	            //     var fixedSupported = isPositionFixedSupported();
+	            //     if (!fixedSupported) return;
+	            // }
+
+	            // Put the target element on top of everything that could be below
+	            // it. This reduces flicker when the target element is transitioning
+	            // to fixed.
+	            base.$el.css('z-index', base.options.zIndex);
+
+	            // Create a spacer element to fill the void left by the target
+	            // element when it goes fixed.
+	            spacer = $('<div />');
+
+	            position = target.css('position');
+	            originalPosition = target.css('position');
+
+	            originalOffsetTop = target.css('top');
+
+	            // Place the spacer right after the target element.
+	            if (isUnfixed()) base.$el.after(spacer);
+
+	            // Reset the target element offsets when the window is resized, then
+	            // check to see if we need to fix or unfix the target element.
+	            $(window).bind('resize.ScrollToFixed', windowResize);
+
+	            // When the window scrolls, check to see if we need to fix or unfix
+	            // the target element.
+	            $(window).bind('scroll.ScrollToFixed', windowScroll);
+
+	            // For touch devices, call checkScroll directlly rather than
+	            // rAF wrapped windowScroll to animate the element
+	            if ('ontouchmove' in window) {
+	              $(window).bind('touchmove.ScrollToFixed', checkScroll);
+	            }
+
+	            if (base.options.preFixed) {
+	                target.bind('preFixed.ScrollToFixed', base.options.preFixed);
+	            }
+	            if (base.options.postFixed) {
+	                target.bind('postFixed.ScrollToFixed', base.options.postFixed);
+	            }
+	            if (base.options.preUnfixed) {
+	                target.bind('preUnfixed.ScrollToFixed', base.options.preUnfixed);
+	            }
+	            if (base.options.postUnfixed) {
+	                target.bind('postUnfixed.ScrollToFixed', base.options.postUnfixed);
+	            }
+	            if (base.options.preAbsolute) {
+	                target.bind('preAbsolute.ScrollToFixed', base.options.preAbsolute);
+	            }
+	            if (base.options.postAbsolute) {
+	                target.bind('postAbsolute.ScrollToFixed', base.options.postAbsolute);
+	            }
+	            if (base.options.fixed) {
+	                target.bind('fixed.ScrollToFixed', base.options.fixed);
+	            }
+	            if (base.options.unfixed) {
+	                target.bind('unfixed.ScrollToFixed', base.options.unfixed);
+	            }
+
+	            if (base.options.spacerClass) {
+	                spacer.addClass(base.options.spacerClass);
+	            }
+
+	            target.bind('resize.ScrollToFixed', function() {
+	                spacer.height(target.height());
+	            });
+
+	            target.bind('scroll.ScrollToFixed', function() {
+	                target.trigger('preUnfixed.ScrollToFixed');
+	                setUnfixed();
+	                target.trigger('unfixed.ScrollToFixed');
+	                checkScroll();
+	            });
+
+	            target.bind('detach.ScrollToFixed', function(ev) {
+	                preventDefault(ev);
+
+	                target.trigger('preUnfixed.ScrollToFixed');
+	                setUnfixed();
+	                target.trigger('unfixed.ScrollToFixed');
+
+	                $(window).unbind('resize.ScrollToFixed', windowResize);
+	                $(window).unbind('scroll.ScrollToFixed', windowScroll);
+
+	                target.unbind('.ScrollToFixed');
+
+	                //remove spacer from dom
+	                spacer.remove();
+
+	                base.$el.removeData('ScrollToFixed');
+	            });
+
+	            // Reset everything.
+	            windowResize();
+	        };
+
+	        // Initialize the plugin.
+	        base.init();
+	    };
+
+	    // Sets the option defaults.
+	    $.ScrollToFixed.defaultOptions = {
+	        marginTop : 0,
+	        limit : 0,
+	        bottom : -1,
+	        zIndex : 1000,
+	        baseClassName: 'scroll-to-fixed-fixed'
+	    };
+
+	    // Returns enhanced elements that will fix to the top of the page when the
+	    // page is scrolled.
+	    $.fn.scrollToFixed = function(options) {
+	        return this.each(function() {
+	            (new $.ScrollToFixed(this, options));
+	        });
+	    };
+	})(jQuery);
+
+
+/***/ }
+/******/ ]);
