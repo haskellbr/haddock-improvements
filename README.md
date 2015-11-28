@@ -16,3 +16,11 @@ What to expect from now:
 
 If the structure has to be changed, the haddock project will be forked and
 this repository will be deprecated.
+
+- - -
+## Running a livereload server for development
+```
+make dependencies
+make serve
+```
+This will install `browser-sync` and start it.
