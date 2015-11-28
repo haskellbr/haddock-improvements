@@ -1,0 +1,12 @@
+{
+  "name": "haddock-improvements",
+  "version": "1.0.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/haskellbr/haddock-improvements.git"
+  },
+  "bugs": {
+    "url": "https://github.com/haskellbr/haddock-improvements/issues"
+  },
+  "homepage": "https://github.com/haskellbr/haddock-improvements#readme"
+}
